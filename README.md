@@ -1,6 +1,6 @@
-# Self-RAG Agent with LangGraph
+# RAG Agent with LangGraph
 
-An adaptive RAG agent built with [LangGraph](https://github.com/langchain-ai/langgraph). Instead of always retrieving and answering in one fixed pass, the agent **decides** where an answer should come from, **picks a search strategy**, **grades** what it found, and **retries** with a different approach when the results are not good enough.
+An self-RAG agent built with [LangGraph](https://github.com/langchain-ai/langgraph). Instead of always retrieving and answering in one fixed pass, the agent **decides** where an answer should come from, **picks a search strategy**, **grades** what it found, and **retries** with a different approach when the results are not good enough.
 
 The demo knowledge base is a small fictional company handbook (Northwind), but the same pipeline works with any PDF.
 
@@ -126,37 +126,6 @@ These knobs are at the top of the notebook:
 | `who won the 2024 US election?` | web | none | Answer with a source URL |
 
 ---
-
-## Project structure
-
-```
-.
-├── Self_RAG_LangGraph.ipynb   # the full agent, step by step
-├── data/
-│   └── company_handbook.pdf   # sample knowledge base
-├── requirements.txt
-├── .env.example
-├── .gitignore
-└── README.md
-```
-
----
-
-## Limitations
-
-- Grading is done by the same LLM that answers, so it can be wrong or over-strict.
-- The agent grades **retrieved passages**, not the final answer. There is no check that the answer is fully supported by the sources.
-- Routing and grading rely on the model replying with a single keyword, with a safe default if it doesn't.
-- The sample handbook is only 4 pages, so retrieval quality at scale is untested.
-- On a web retry, the query is rewritten the same way, so the second search may be identical to the first.
-
-## Ideas for next steps
-
-- Add an answer-level check for hallucination and usefulness
-- Return structured output from the LLM instead of parsing keywords
-- Deduplicate chunks when using `decompose`
-- Add an evaluation set with expected answers
-- Support multiple PDFs and metadata filtering
 
 ---
 
